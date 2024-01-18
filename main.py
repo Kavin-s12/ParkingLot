@@ -1,4 +1,4 @@
-from vehicle import vehicle
+from vehicle import Vehicle
 from parking import ParkingLot
 
 # class ParkingFunctions:
@@ -26,26 +26,16 @@ if __name__ == '__main__':
             Parking = ParkingLot(lot_id,int(no_floors),int(no_of_slots))
             print(f"Created parking lot with {no_floors} floors and {no_of_slots} slots per floor")
         
-        elif instruct[0] == 'park_vehicle':
-            _, type , reg_no , colour = instruct
-            if Parking:
-                Parking.park_vehicle(vehicle(type,reg_no,colour))
-            else:
-                print("No parking lot")
-        
-        elif instruct[0] == 'unpark_vehicle':
-            _, floor_no , slot_no = instruct[1].split('_')
+        elif Parking:
+            if instruct[0] == 'park_vehicle':
+                _, type , reg_no , colour = instruct
+                Parking.park_vehicle(Vehicle(type,reg_no,colour))
             
-            if Parking:
-                Parking.unpark_vehicle(int(floor_no), int(slot_no))
-            else:
-                print("No parking lot")
-        
-        elif instruct[0] == 'display':
-            _ , choice , type = instruct
-            if choice == 'free_count':
-                Parking.display_free_count(type)
-            elif choice == 'free_slots':
-                Parking.display_free_slots(type)
-            else:
-                Parking.display_occupied_slots(type)
+            elif instruct[0] == 'unpark_vehicle':
+                Parking.unpark_vehicle(instruct[1])
+
+            elif instruct[0] == 'display':
+                _ , choice , type = instruct
+                Parking.display(choice, type)
+        else:
+            print("No parking lot")
